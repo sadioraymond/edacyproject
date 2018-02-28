@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.uktraq.net.nz/thymeleaf/layout"
+	>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<meta name="author" content="Dashboard" />
+<meta name="keyword"
+	content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina" />
+
+<title>Gestion Scolaire</title>
+<!-- Bootstrap core CSS -->
+<link href="../static/assets/css/bootstrap.css" rel="stylesheet"
+	type="text/css" th:href="@{/assets/css/bootstrap.css}" />
+<!--external css-->
+<link href="../static/assets/font-awesome/css/font-awesome.css"
+	rel="stylesheet" th:href="@{/assets/font-awesome/css/font-awesome.css}" />
+<link rel="stylesheet" type="text/css"
+	href="../static/assets/css/zabuto_calendar.css"
+	th:href="@{/assets/css/zabuto_calendar.css}" />
+<link rel="stylesheet" type="text/css"
+	href="../static/assets/js/gritter/css/jquery.gritter.css"
+	th:href="@{/assets/js/gritter/css/jquery.gritter.css}" />
+<link rel="stylesheet" type="text/css"
+	href="../static/assets/lineicons/style.css"
+	th:href="@{/assets/lineicons/style.css}" />
+
+<!-- Custom styles for this template -->
+<link href="../static/assets/css/style.css" rel="stylesheet"
+	th:href="@{/assets/css/style.css}" />
+<link href="../static/assets/css/style-responsive.css" rel="stylesheet"
+	th:href="@{/assets/css/style-responsive.css}" />
+
+<script src="../static/assets/js/chart-master/Chart.js"></script>
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+	<section id="container">
+		<!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+		<!--header start-->
+		<header class="header black-bg">
+			<div class="sidebar-toggle-box">
+				<div class="fa fa-bars tooltips" data-placement="right"
+					data-original-title="Toggle Navigation"></div>
+			</div>
+			<!--logo start-->
+			<a href="acceuil.html" class="logo"><b>Lycée d’Excellence de Dakar</b></a>
+			<!--logo end-->
+			<div class="nav notify-row" id="top_menu">
+				<!--  notification start -->
+				<ul class="nav top-menu">
+					<!-- settings start -->
+					
+					<!-- settings end -->
+					<!-- inbox dropdown start-->
+							<div class="notify-arrow notify-arrow-green"></div>
+						
+					<!-- inbox dropdown end -->
+				</ul>
+				<!--  notification end -->
+			</div>
+			<div class="top-menu">
+				<ul class="nav pull-right top-menu">
+					<li><a class="logout" th:href="@{/login?logout}">Deconnexion</a></li>
+				</ul>
+			</div>
+		</header>
+		<!--header end-->
+
+		<!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+		<!--sidebar start-->
+		<aside>
+			<div id="sidebar" class="nav-collapse ">
+				<!-- sidebar menu start-->
+				<ul class="sidebar-menu" id="nav-accordion">
+
+									<p class="centered">
+						<a th:href="@{/acceuil}"><img src="assets/img/ui-sam.jpg"
+							class="img-circle" width="60" /></a>
+					</p>
+					<h5 class="centered" th:text="${username}"></h5>
+					<div sec:authorize="hasRole('ROLE_ADMIN')">
+						<li class="sub-menu">
+					<a href="javascript:;"> 
+					<i class="fa fa-desktop"></i> 
+					<span>Gestion des Series</span>
+					</a>
+						<ul class="sub">
+							<li><a th:href="@{/ajoutseries}">Ajout Séries</a></li>
+							<li><a th:href="@{/allseries}">Liste des Series</a></li>
+						</ul>
+					</li>
+					</div>
+				
+					<li class="sub-menu"><a href="javascript:;"> <i
+							class="fa fa-cogs"></i> <span>Gestion des Classes</span>
+					</a>
+						<ul class="sub">
+							<li><a th:href="@{/ajoutclasse}">Ajout des Classes</a></li>
+							<li><a th:href="@{/allclasse}">Listes des Classes</a></li>
+						</ul></li>
+					<li class="sub-menu"><a href="javascript:;"> <i
+							class="fa fa-book"></i> <span>Gestion des Eléves</span>
+					</a>
+						<ul class="sub">
+							<li><a th:href="@{/inscription}">Inscription Eléves</a></li>
+							<li><a th:href="@{/alleleves}">Listes des Eléves</a></li>
+							<li><a th:href="@{/allinscriptions}">Listes des Inscriptions</a></li>
+						</ul></li>
+					<li class="sub-menu"><a href="javascript:;"> <i
+							class="fa fa-book"></i> <span>Gestion Année Académique</span>
+					</a>
+						<ul class="sub">
+							<li><a th:href="@{/ajoutanneeaca}">Ajout Année Académique</a></li>
+							<li><a th:href="@{/allanneaca}">Liste Année Académique</a></li>
+						</ul></li>
+				</ul>
+				<!-- sidebar menu end-->
+			</div>
+		</aside>
+		<!--sidebar end-->
+		<section id="main-content">
+          <section class="wrapper">
+          	<h3><i class="fa fa-angle-right"></i> Liste des Classes</h3>
+              <div class="row mt" th:if="${listClasses}">
+                  <div class="col-md-12">
+                      <div class="content-panel">
+                          <table class="table table-striped table-advance table-hover">
+	                  	  	  <h4><i class="fa fa-angle-right"></i> Classes</h4>
+                              <thead>
+                            <tr>
+							<th>Nom de la Classe</th>
+							<th>Nom de la Série</th>
+						</tr>
+                              </thead>
+                              <tbody>
+                              <tr th:each="c:${listClasses}">
+							<td th:text="${c.nomclasse}"></td>
+							<td th:text="${c.getSeriess().getLibelle()}"></td>
+							<th><a th:href="@{/modifierclasse(id_classe=${c.idclasse})}">
+							<i class="fa fa-pencil"> Modifier</i></a>
+							</th>
+							<th><a th:href="@{/supprimerclasse(id_classe=${c.idclasse})}">
+							<i class="fa fa-trash-o "></i> Supprimer</a></th>
+						</tr>
+                              </tbody>
+                          </table>
+                          	<div class="container">
+						<ul class="nav nav-pills">
+							<li th:each="p,status:${pages}"><a
+								th:href="@{/allseries(page=${status.index})}"
+								th:text="${status.index}"></a></li>
+						</ul>
+					</div>
+                      </div><!-- /content-panel -->
+                  </div><!-- /col-md-12 -->
+              </div><!-- /row -->
+		</section>
+				<!--main content end-->
+		<!--footer start-->
+		<div class="navbar-fixed-bottom">
+	<footer class="site-footer">
+          <div class="text-center">
+              Copyright Raymond SADIO
+              <a class="go-top">
+                  <i class="fa fa-angle-up"></i>
+              </a>
+          </div>
+      </footer>
+       </div>
+		<!--footer end-->
+	</section>
+</section>
+	<!-- js placed at the end of the document so the pages load faster -->
+	<script src="assets/js/jquery.js"></script>
+	<script src="assets/js/jquery-1.8.3.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script class="include" type="text/javascript"
+		src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
+	<script src="assets/js/jquery.scrollTo.min.js"></script>
+	<script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+	<script src="assets/js/jquery.sparkline.js"></script>
+
+
+	<!--common script for all pages-->
+	<script src="assets/js/common-scripts.js"></script>
+
+	<script type="text/javascript"
+		src="assets/js/gritter/js/jquery.gritter.js"></script>
+	<script type="text/javascript" src="assets/js/gritter-conf.js"></script>
+
+	<!--script for this page-->
+	<script src="assets/js/sparkline-chart.js"></script>
+	<script src="assets/js/zabuto_calendar.js"></script>
+	<script type="application/javascript">
+        $(document).ready(function () {
+            $("#date-popover").popover({html: true, trigger: "manual"});
+            $("#date-popover").hide();
+            $("#date-popover").click(function (e) {
+                $(this).hide();
+            });
+        
+            $("#my-calendar").zabuto_calendar({
+                action: function () {
+                    return myDateFunction(this.id, false);
+                },
+                action_nav: function () {
+                    return myNavFunction(this.id);
+                },
+                ajax: {
+                    url: "show_data.php?action=1",
+                    modal: true
+                },
+                legend: [
+                    {type: "text", label: "Special event", badge: "00"},
+                    {type: "block", label: "Regular event", }
+                ]
+            });
+        });
+        
+        
+        function myNavFunction(id) {
+            $("#date-popover").hide();
+            var nav = $("#" + id).data("navigation");
+            var to = $("#" + id).data("to");
+            console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+        }
+    </script>
+
+
+</body>
+</html>
+		
